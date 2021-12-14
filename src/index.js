@@ -12,6 +12,10 @@ const CLIENTKEY = "5c48fafe806cbb419f2c6bd7";
     clientSideID: CLIENTKEY,
     user: {
       key: "5de6fc8b62da8a3d7fc41402624f2319",
+      custom: {
+        "device_type": "ios",
+        "location": "CA"
+      }
     },
   });
 
