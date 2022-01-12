@@ -5,17 +5,38 @@ import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import { asyncWithLDProvider } from "launchdarkly-react-client-sdk";
 
-const CLIENTKEY = "5c48fafe806cbb419f2c6bd7";
+
+// CLIENT key loaded from mobile QR scan, pass this into the SDK if available
+const urlString = window.location.href
+const url = new URL(urlString)
+const clientSideID = url.searchParams.get("clientsideid")
+
+if (clientSideID){
+   window.localStorage.setItem('CLIENTKEY', clientSideID)
+}
+
+if (window.localStorage.getItem('CLIENTKEY') == null) {
+  const CLIENTKEY = prompt("Please enter your clientSideID");
+  window.localStorage.setItem('CLIENTKEY', CLIENTKEY);
+}
+
+function loadLocalStorage(){
+  const CLIENTKEY = window.localStorage.getItem('CLIENTKEY')
+  return CLIENTKEY
+}
 
 (async () => {
   const LDProvider = await asyncWithLDProvider({
-    clientSideID: CLIENTKEY,
+    clientSideID: loadLocalStorage(),
     user: {
       key: "5de6fc8b62da8a3d7fc41402624f2319",
+      email: "brian@launchdarkly.com",
       custom: {
         "device_type": "ios",
-        "location": "CA"
-      }
+        "location": "CA",
+        "tier": "gold"
+      },
+      "privateAttributeNames": ["email", "key"]
     },
   });
 
