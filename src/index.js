@@ -15,9 +15,17 @@ if (clientSideID){
    window.localStorage.setItem('CLIENTKEY', clientSideID)
 }
 
-if (window.localStorage.getItem('CLIENTKEY') == null) {
-  const CLIENTKEY = prompt("Please enter your clientSideID");
+if (window.localStorage.getItem('CLIENTKEY') === null || window.localStorage.getItem('CLIENTKEY') === "null") {
+  const CLIENTKEY = prompt("Please enter your Client-side ID (https://app.launchdarkly.com/settings/projects)");
   window.localStorage.setItem('CLIENTKEY', CLIENTKEY);
+
+  while (CLIENTKEY === "" || CLIENTKEY == null) {
+    const CLIENTKEY = prompt("Please enter valid Client-side ID (https://app.launchdarkly.com/settings/projects)");
+    if (CLIENTKEY) {
+      window.localStorage.setItem('CLIENTKEY', CLIENTKEY);
+      break;
+    }
+  }
 }
 
 function loadLocalStorage(){
